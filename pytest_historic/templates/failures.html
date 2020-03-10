@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link href="https://img.icons8.com/cotton/64/000000/time-machine.png" rel="shortcut icon" type="image/x-icon"/>
-    <title>Pytest Historic - History</title>
+    <title>Pytest Historic - Failures</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -53,56 +52,69 @@
                 </button>
                 <a class="navbar-brand" href="/home">Pytest Historic</a>
             </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="tablinks"><a href="./dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li class="tablinks active" onclick="executeDataTable()"><a href="./ehistoric"><i class="fa fa-history"></i> History</a></li>
-                    <li class="tablinks"><a href="./tmetrics"><i class="fa fa-flask"></i> Metrics</a></li>
-                    <li class="tablinks"><a href="./flaky"><i class="fa fa-bolt"></i> Flaky</a></li>
-                    <li class="tablinks"><a href="./search"><i class="fa fa-search"></i> Search</a></li>
-                    <li class="tablinks"><a href="./compare"><i class="fa fa-sliders"></i> Compare</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 
     <div class="tabcontent">
         <div class="d-flex flex-column flex-md-row align-items-center p-1 mb-3 bg-light border-bottom shadow-sm">
-            <h3 class="my-0 mr-md-auto font-weight-normal" style="text-transform: capitalize;">{{db_name}} - Recent Executions</h3>
+            <h3 class="my-0 mr-md-auto font-weight-normal" style="text-transform: capitalize;">{{db_name}} - Recent Test Failures</h3>
         </div>
         <hr>
-        <table class="table table-striped" id="ehist">
+        <table class="table table-striped" id="eidtmetrics">
             <thead>
                 <tr>
                     <th>EID</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Executed</th>
-                    <th>Passed</th>
-                    <th>Failed</th>
-                    <th>xPass</th>
-                    <th>xFail</th>
-                    <th>Skiped</th>
-                    <th>Error</th>
+                    <th>Test Case</th>
                     <th>Time (s)</th>
-                    <th>Metrics | Failures | Delete</th>
+                    <th>Error</th>
+                    <th>Comment</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in data %}
                     <tr>
-                        <td title="Click to view {{item[0]}} execution info"><a href="./tmetrics/{{item[0]}}" target="_blank">{{item[0]}}</a></td>
                         <td> {{item[1]}}</td>
                         <td style="word-wrap: break-word;max-width: 250px; white-space: normal; text-align: left;"> {{item[2]}}</td>
-                        <td style="color: teal"> {{item[3]}}</td>
-                        <td style="color: green"> {{item[4]}}</td>
-                        <td style="color: red"> {{item[5]}}</td>
-                        <td style="color: brown"> {{item[7]}}</td>
-                        <td style="color: brown"> {{item[8]}}</td>
-                        <td style="color: brown"> {{item[6]}}</td>
-                        <td style="color: gray"> {{item[9]}}</td>
-                        <td>{{item[10]}}</td>
-                        <td> <a href="./metrics/{{item[0]}}" target="_blank">View</a> | <a href="./failures/{{item[0]}}" target="_blank">Failures</a> | <a href="./deleconf/{{item[0]}}">Delete</a></td>
+                        <td> {{item[4]}}</td>
+                        <td style="word-wrap: break-word;max-width: 250px; white-space: normal; text-align: left;"> {{item[5]}}</td">
+                        <td style="word-wrap: break-word;max-width: 250px; white-space: normal; text-align: left;">
+                            {% if (item[3] != "PASS" and item[6] != None) %}
+                                {{item[6]}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if (item[3] != "PASS" ) %}
+                                <a href="#" data-toggle="modal" data-target="#updateComment{{item[0]}}" class="btn" title="Update Comment"><i class="fa fa-pencil"></i></a>
+                                <div id="updateComment{{item[0]}}" class="modal fade" role="dialog" style="color:black;">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" style="text-align-last: left">{{item[2]}}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="example" method="post" action="">
+                                                    <div class="form-group">
+                                                        <div style="text-align:left !important;"><b>Comment:</b></div>
+                                                        <textarea id="textField" rows="5" type="text" name="textField" onclick="this.select();" style="min-width: 100%">{{item[6]}}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input readonly id="rowField" type="hidden" value="{{item[0]}}" name="rowField" style="min-width: 50%"></input>
+                                                        <button id="submit" type="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                                <small>Use escaping character while using special characters or single quote</small>
+                                            </div>
+                                            <div class="modal-footer d-flex justify-content-center">
+                                                <a href="#" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -110,12 +122,20 @@
     </div>
     <script>
         function executeDataTable() {
-            var fileTitle = "ExecutionHistoric";
-            $('#ehist').DataTable(
+            var fileTitle = "TestMetrics";
+            $('#eidtmetrics').DataTable(
                 {
                     retrieve: true,
-                    "order": [[ 0, "desc" ]],
+                    "order": [[ 1, "asc" ]],
                     dom: 'l<".margin" B>frtip',
+
+                    "aoColumnDefs": [ {
+                        "aTargets": [ 4 ],
+                        "mRender": function ( data, type, full ) {
+                        return $("<div/>").html(data).text();
+                        }
+                    } ],
+
                     buttons: [
                          {
 							extend:    'copyHtml5',
@@ -172,7 +192,7 @@
 					} ]
 			   }
             );
-        }
+          }
     </script>
 </body>
 

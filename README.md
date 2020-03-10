@@ -28,7 +28,7 @@ Pytest-historic is a free, custom html report which provides historical pytest e
 - Flakiness
 - Compare executions
 - Generate Pytest-metrics report
-- Custom comments on failures
+- Custom comments on failures (Supports html tags)
 - Export results (Excel, CSV, Print, Copy)
 
 ---
@@ -62,11 +62,13 @@ Pytest-historic is a free, custom html report which provides historical pytest e
 
 ## Installation
 
- - __Step 1:__ Install pytest-historic
+ - __Step 1:__ Download and Install MySQL Server - [guide](https://bit.ly/39zw0DF)
+
+  - __Step 2:__ Install pytest-historic
 
     > Case 1: Using pip
     ```
-    pip install pytest-historic
+    pip install pytest-historic==0.1.1
     ```
 
     > Case 2: Using setup.py (root)
@@ -79,19 +81,24 @@ Pytest-historic is a free, custom html report which provides historical pytest e
     pip install git+https://github.com/adiralashiva8/pytest-historic
     ```
 
- - __Step 2:__ Download and Install MySQL Server - [guide](https://bit.ly/39zw0DF)
-
  - __Step 3:__ Create *pytesthistoric* default user with permissions - [guide](https://bit.ly/2Ir29BD)
 
  - __Step 4:__ Create *pytesthistoric.tb_project* table - [guide](https://bit.ly/2wAJpgm)
 
  - __Step 5:__ Install pytest-historic-hook
     ```
-    pip install pytest-historic-hook
+    pip install pytest-historic-hook==0.1.0
     ```
 
    > _Note:_ Above all actions are one time activities
 
+   ### Help / Command line options
+
+   To view available command line options use `--help`
+
+   ```
+   pytesthistoric --help
+   ```
 ---
 
 ## How to use in project
@@ -114,6 +121,14 @@ If you have any questions / suggestions / comments on the report, please feel fr
  - Email: <a href="mailto:adiralashiva8@gmail.com?Subject=pytest%20historic" target="_blank">`adiralashiva8@gmail.com`</a>
  - LinkedIn: <a href="https://www.linkedin.com/in/shivaprasadadirala/" target="_blank">`shivaprasadadirala`</a>
  - Twitter: <a href="https://twitter.com/ShivaAdirala" target="_blank">`@ShivaAdirala`</a>
+
+---
+*Special Thanks To*
+
+
+*Feedback & Suggestions*
+
+ - [Rahul Parwal](https://www.linkedin.com/in/rahul-parwal/)
 
 ---
 
