@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
       name='pytest-historic',
-      version="0.1.1",
+      version="0.1.2",
       description='Custom report to display pytest historical execution records',
       long_description='Pytest Historic is custom report to display historical execution records using MySQL + Flask',
       classifiers=[
