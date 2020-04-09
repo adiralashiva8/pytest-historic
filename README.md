@@ -70,7 +70,7 @@ Pytest-historic is a free, custom html report which provides historical pytest e
 
     > Case 1: Using pip
     ```
-    pip install pytest-historic==0.1.1
+    pip install pytest-historic==0.1.2
     ```
 
     > Case 2: Using setup.py (root)
@@ -89,7 +89,7 @@ Pytest-historic is a free, custom html report which provides historical pytest e
 
  - __Step 5:__ Install pytest-historic-hook
     ```
-    pip install pytest-historic-hook==0.1.0
+    pip install pytest-historic-hook==0.1.2
     ```
 
    > _Note:_ Above all actions are one time activities
