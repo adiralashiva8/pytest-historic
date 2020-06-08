@@ -85,7 +85,7 @@ Pytest-historic is a free, custom html report which provides historical pytest e
 
  - __Step 3:__ Create *pytesthistoric* default user with permissions - [guide](https://bit.ly/2Ir29BD)
 
- - __Step 4:__ Create *pytesthistoric.tb_project* table - [guide](https://bit.ly/2wAJpgm)
+ - __Step 4:__ Create *pytesthistoric.TB_PROJECT* table - [guide](https://bit.ly/2wAJpgm)
 
  - __Step 5:__ Install pytest-historic-hook
     ```
